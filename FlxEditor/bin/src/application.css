@@ -1,0 +1,72 @@
+
+#menuBar{}
+
+#sideBar{
+	/*-fx-border-width: 1px; 
+	-fx-border-style: solid;*/
+	-fx-padding: 10px;
+	-fx-spacing: 8.0;
+
+}
+
+#drawingArea{
+	/*-fx-border-width: 2px;
+	-fx-border-style: solid;*/
+	-fx-padding: 10px;
+	-fx-background-color: WHITE;
+}
+
+#parameterEditor{
+	/*-fx-border-width: 1px; 
+	-fx-border-style: solid;*/
+	-fx-padding: 10px;
+}
+#parameterDisplay{
+	-fx-background-color: WHITE;
+}
+
+
+.verticalSlider{
+	-fx-padding: 5px;
+}
+.horizontalSlider {
+	-fx-padding: 5px;
+}
+
+#blockLabel {
+	-fx-font-size: 20;
+	-fx-font-weight: bold;
+}
+
+.wire{
+	-fx-stroke-width:2px;
+}
+
+.wire:hover{
+	-fx-stroke:red;
+}
+
+.connector{
+	
+}
+.connector:hover{
+	-fx-fill:red;
+}
+
+.editorLabel{
+	-fx-font-size: 12;
+	-fx-font-weight: bold;	
+}
+
+#parameterValueDisplay{
+	-fx-padding: 10px;
+	-fx-spacing: 8.0;
+}
+
+
+.list-view .scroll-bar:horizontal .increment-arrow,
+.list-view .scroll-bar:horizontal .decrement-arrow,
+.list-view .scroll-bar:horizontal .increment-button,
+.list-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding:0;
+}
