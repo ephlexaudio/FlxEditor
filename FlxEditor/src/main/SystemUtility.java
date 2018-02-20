@@ -442,7 +442,7 @@ public final class SystemUtility {
 			                TimeUnit.MILLISECONDS.sleep(waitTime);
 			                outputStream.flush();
 			                byte bytesIn[] = new byte[4000];
-			                byte cleanBytesIn[] = new byte[4000];
+			                String cleanStringIn = new String();
 			                int inputByteCount = 0;
 			                boolean responseHeaderReceived = false;
 			                String startTag = "<"+responseHeader+">";
@@ -450,7 +450,7 @@ public final class SystemUtility {
 			                boolean responseStartTagReceived = false;
 			                boolean responseEndTagReceived = false;
 			                boolean responseReceived = false;
-			                while(/*((inputStream.available() < request.length()) || (inputStream.available() >= request.length()+2)) && */(endIndex < 0))
+			                while(!(    (cleanStringIn.contains(startTag)) &&  (cleanStringIn.contains(endTag))  ) && (endIndex < 0))
 			                {
 			    	    		if(inputStream.available() > 0)
 			    	    		{
@@ -461,36 +461,27 @@ public final class SystemUtility {
 				                	{
 				                		if(0 < bytesIn[byteIndex] )
 				                		{
-				                			cleanBytesIn[cleanByteIndex++] = bytesIn[byteIndex];
 				                			
+				                			cleanStringIn += (char)bytesIn[byteIndex];
 				                		}
-				                		//System.out.print("[" + byteIndex + "]:" + bytesIn[byteIndex] + ",");
+				                		
 				                	}
-				                	//System.out.println();
-				                	String cleanStringIn = new String(cleanBytesIn);//.toString();
-				                	
-				                	//System.out.println("StringIn: " + StringIn);
+				                	if(debugStatements) System.out.println("cleanStringIn.length: " + cleanStringIn.length());
+				                	if(debugStatements) System.out.println("cleanStringIn: " + cleanStringIn);
+
+				                	/*if(cleanStringIn.contains(startTag))
+				                	{
+				                		responseStartTagReceived = true;
+				                	}*/
 
 				                	if(cleanStringIn.contains(startTag))
 				                	{
-				                		responseStartTagReceived = true;
-				                		//System.out.println("responseStartHeaderReceived tag recieved");
-					                	/*if(stringIn.contains(endTag))
-					                	{
-					                		responseEndTagReceived = true;
-
-					                		System.out.println("responseEndHeaderReceived tag recieved");
-					                	}*/
-				                	}
-
-				                	if(responseStartTagReceived/*responseStartHeaderReceived*/)
-				                	{
-				                		responseData = responseData.concat(cleanStringIn);
+				                		responseData = cleanStringIn;
 					                	beginIndex = responseData.indexOf(startTag);
 					                	endIndex = responseData.indexOf(endTag);
-				                		//if(debugStatements) System.out.println("valid response data: " + responseData);
-				                		//if(debugStatements) System.out.println("responseStartTagReceived: " + responseStartTagReceived + "\tresponseEndTagReceived: " + responseEndTagReceived);
-				                		//if(debugStatements) System.out.println("responseHeader: " + responseHeader + "\tbeginIndex: " + beginIndex + "\tendIndex: " + endIndex);
+				                		if(debugStatements) System.out.println("valid response data: " + responseData);
+				                		if(debugStatements) System.out.println("responseStartTagReceived: " + responseStartTagReceived + "\tresponseEndTagReceived: " + responseEndTagReceived);
+				                		if(debugStatements) System.out.println("responseHeader: " + responseHeader + "\tbeginIndex: " + beginIndex + "\tendIndex: " + endIndex);
 				                		done = true;
 				                	}
 			    	    		}
@@ -507,7 +498,7 @@ public final class SystemUtility {
 		        		}
 		                if( 0 <= beginIndex && 0 <= endIndex &&  beginIndex < endIndex /*responseData.contains(responseHeader)*/)
 		                {
-							System.out.println("responseData1: " + responseData);
+		                	if(debugStatements) System.out.println("responseData1: " + responseData);
 		                	data = responseData.substring(beginIndex+2+responseHeader.length(),endIndex);
 		                	if(data.length() < 5) this.pedalConnectionReady = false;
 		                	int checkSumIndex = 0;
@@ -526,9 +517,9 @@ public final class SystemUtility {
 		                				stringTotal += dataString.charAt(dataStringIndex);
 		                			}
 		                		}
-		                		System.out.println("checkSum: " + data.substring(checkSumIndex+1));
+		                		if(debugStatements) System.out.println("checkSum: " + data.substring(checkSumIndex+1));
 		                		checkSum = Integer.parseInt(data.substring(checkSumIndex+1));
-		                		System.out.println("checkSum: " + checkSum + "\tstringTotal: " + stringTotal);
+		                		if(debugStatements) System.out.println("checkSum: " + checkSum + "\tstringTotal: " + stringTotal);
 
 		                		if(checkSum == stringTotal)
 		                		{
