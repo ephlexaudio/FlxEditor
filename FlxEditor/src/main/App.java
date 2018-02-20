@@ -184,7 +184,7 @@ public class App extends Application {
       	this.drawingArea.setSidebar(this.sidebar);
 	    try
 	    {
-		    stage.setTitle("FLX Editor 2");
+		    stage.setTitle("FLX Editor V0.1");
 
 		    BorderPane mainBox = new BorderPane();
 		    Scene mainScene = new Scene(mainBox);//, 1000, 600);
