@@ -3,13 +3,6 @@ package main;
 import java.util.List;
 import java.util.Map;
 
-/*import javax.json.JsonObject;
-import javax.json.JsonValue;
-
-import diagramComponents.FlxControl;
-import diagramComponents.FlxControl_Impl;
-import diagramComponents.FlxProcess;
-import diagramComponents.FlxProcess_Impl;*/
 import diagramSubComponents.FlxControlParameter;
 import diagramSubComponents.FlxFootswitch;
 import diagramSubComponents.FlxParameter;

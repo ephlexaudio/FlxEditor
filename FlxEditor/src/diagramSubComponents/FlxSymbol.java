@@ -8,15 +8,9 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
-//import javafx.collections.ObservableList;
 import javafx.scene.Group;
-/*import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;*/
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-//import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
 
 class PolygonCoords {
@@ -40,31 +34,29 @@ public class FlxSymbol {
 	PolygonCoords bodyCoords = new PolygonCoords();
 	List<String> wireData = new ArrayList<String>();
 	List<String> graphicData = new ArrayList<String>();
-	
-	Polygon body;// = new Polygon();
+
+	Polygon body;
 	List<SVGPath> graphics = new ArrayList<SVGPath>();
-	//String body = new String();
 	double[] polygonCoords = new double[10];
 	double x;
 	double y;
-	
+
 	public FlxSymbol(String process, JsonValue body, JsonValue graphic, String color, double x, double y)
 	{
-		
+
 		this.process = process;
 		this.color = color;
 		this.bodyJsonValue = body;
 		this.graphicJsonValue = graphic;
 
 		JsonArray symbolSvgPaths = (JsonArray)body;
-		
+
 		for(int i = 0; i < symbolSvgPaths.size(); i++)
 		{
 			if(symbolSvgPaths.get(i).toString().indexOf('M') >= 0)
 			{
 				String svgPathString = new String(symbolSvgPaths.getString(i)+" z");
 				this.wireData.add(svgPathString);
-				//System.out.println(svgPathString);
 			}
 			else
 			{
@@ -75,7 +67,7 @@ public class FlxSymbol {
 					{
 						String cleanCoordString = coordStringArray[coordStringArrayIndex].replace("\"", "");
 						String[] coordString = cleanCoordString.split(",");
-						
+
 						this.polygonCoords[2*coordStringArrayIndex] = Double.parseDouble(coordString[0]);
 						this.polygonCoords[2*coordStringArrayIndex+1] = Double.parseDouble(coordString[1]);
 					}
@@ -86,17 +78,17 @@ public class FlxSymbol {
 				}
 			}
 		}
-		
+
 		JsonArray symbolSvgGraphicPaths = (JsonArray)graphic;
-		
+
 		for(int i = 0; i < symbolSvgGraphicPaths.size(); i++)
 		{
 			this.graphicData.add(new String(symbolSvgGraphicPaths.getString(i)));
 		}
-		
+
 		this.x = x;
 		this.y = y;
-		
+
 		this.body = new Polygon(polygonCoords);
 		if(this.color.indexOf("yellow")>=0)
 			this.body.setFill(Color.YELLOW);
@@ -105,7 +97,7 @@ public class FlxSymbol {
 		this.body.setStroke(Color.BLACK);
 
 		this.symbol.getChildren().add(this.body);
-		
+
         for(int i = 0; i < this.graphicData.size(); i++)
         {
             SVGPath svg = new SVGPath();
@@ -113,10 +105,10 @@ public class FlxSymbol {
             svg.setStrokeWidth(1.2);
             svg.setFill(Color.TRANSPARENT);
             svg.setContent(this.graphicData.get(i));
-            
+
             this.symbol.getChildren().add(svg);
         }
-        
+
         for(int i = 0; i < this.wireData.size(); i++)
         {
             SVGPath svg = new SVGPath();
@@ -127,19 +119,16 @@ public class FlxSymbol {
             this.symbol.getChildren().add(svg);
         }
 		this.color = color;
-		
-		//this.symbolContainer.getChildren().add(this.symbol);
+
 	}
-	
-	
+
+
 	public void setLocation(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
-		/*this.symbol.setTranslateX(this.x);
-		this.symbol.setTranslateY(this.y);*/
 	}
-	
+
 	public Group getSymbol(double x, double y)
 	{
 		this.x = x;
@@ -152,30 +141,28 @@ public class FlxSymbol {
 
 	public Group getSymbol()
 	{
-		/*this.symbol.setTranslateX(this.x);
-		this.symbol.setTranslateY(this.y);*/
 
-        return this.symbol/*Container*/;
+        return this.symbol;
 	}
-	
+
 	public Coord getSymbolCoords()
 	{
 		Coord symbolCoord = new Coord(this.x, this.y);
-		
+
 		return symbolCoord;
 	}
-	
+
 	public void deleteSymbol()
 	{
-		
+
 	}
-	
-	public void setSelectIndicator(boolean selected)
+
+	public void setSelectIndicator(boolean selected)  // if process or control is selected, black lines will widen
 	{
 		double strokeWidth = 0.0;
 		if(selected) strokeWidth = 3.0;
 		else strokeWidth = 1.2;
-		
+
 		this.symbol.getChildren().clear();
 		this.body = new Polygon(polygonCoords);
 		this.body.setStrokeWidth(strokeWidth);
@@ -185,7 +172,7 @@ public class FlxSymbol {
 			this.body.setFill(Color.BLUE);
 		this.body.setStroke(Color.BLACK);
 		this.symbol.getChildren().add(this.body);
-		
+
         for(int i = 0; i < this.graphicData.size(); i++)
         {
             SVGPath svg = new SVGPath();
@@ -193,10 +180,10 @@ public class FlxSymbol {
             svg.setStrokeWidth(strokeWidth);
             svg.setFill(Color.TRANSPARENT);
             svg.setContent(this.graphicData.get(i));
-            
+
             this.symbol.getChildren().add(svg);
         }
-        
+
         for(int i = 0; i < this.wireData.size(); i++)
         {
             SVGPath svg = new SVGPath();
@@ -208,10 +195,10 @@ public class FlxSymbol {
         }
 	}
 
-	public void flipProcess(boolean selected, boolean flipped) {
-		// TODO Auto-generated method stub
+	public void flipProcess(boolean selected, boolean flipped) { // toggles process block forward or backward (feedback)
+
 		double scale = 1.0;
-		
+
 		if(flipped == true)
 		{
 			scale = 1.0;
@@ -226,7 +213,7 @@ public class FlxSymbol {
 		double strokeWidth = 0.0;
 		if(selected) strokeWidth = 3.0;
 		else strokeWidth = 1.2;
-		
+
 		this.symbol.getChildren().clear();
 		this.body = new Polygon(polygonCoords);
 		this.body.setStrokeWidth(strokeWidth);
@@ -236,7 +223,7 @@ public class FlxSymbol {
 			this.body.setFill(Color.BLUE);
 		this.body.setStroke(Color.BLACK);
 		this.symbol.getChildren().add(this.body);
-		
+
         for(int i = 0; i < this.graphicData.size(); i++)
         {
             SVGPath svg = new SVGPath();
@@ -246,7 +233,7 @@ public class FlxSymbol {
             svg.setContent(this.graphicData.get(i));
             this.symbol.getChildren().add(svg);
         }
-        
+
         for(int i = 0; i < this.wireData.size(); i++)
         {
             SVGPath svg = new SVGPath();
@@ -265,14 +252,14 @@ public class FlxSymbol {
 	{
 		JsonObject locationData = Json.createObjectBuilder()
 				.add("x", this.x).add("y", this.y).build();
-		
+
 		JsonObject symbolData = Json.createObjectBuilder()
 				.add("location", locationData)
 				.add("body", this.bodyJsonValue)
 				.add("graphic", this.graphicJsonValue)
 				.add("color",this.color)
 				.build();
-		
+
 		return symbolData;
 	}
 }

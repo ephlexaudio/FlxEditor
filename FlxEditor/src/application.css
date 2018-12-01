@@ -70,3 +70,7 @@
 .list-view .scroll-bar:horizontal .decrement-button {
     -fx-padding:0;
 }
+
+#applyChanges{
+	-fx-background-color:CLEAR;
+}

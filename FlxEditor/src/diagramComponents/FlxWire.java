@@ -1,12 +1,10 @@
 package diagramComponents;
 
-//import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 
 import diagramSubComponents.BoundCoord;
 import diagramSubComponents.Coord;
 import javafx.scene.Group;
-//import javafx.scene.shape.Line;
 
 public interface FlxWire {
 

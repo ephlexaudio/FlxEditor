@@ -15,5 +15,7 @@ public interface DataAccess {
 	public List<String> sendComboString(String comboName, String comboString);
 	public List<String> deleteCombo(String comboName);
 	public int changeValue(String parent, String parentType, String paramName, int valueIndex); 
+	
 	public boolean checkCommPortStatus();
+	public String getPedalStatus();
 }

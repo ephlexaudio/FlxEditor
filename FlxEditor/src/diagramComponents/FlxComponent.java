@@ -10,6 +10,5 @@ public interface FlxComponent extends FlxBlock {
 	public Group getComponent();
 	public void setLocation(double x, double y);
 	public JsonValue getComponentData();
-	//public JsonValue getControlComponentData();
 	
 }

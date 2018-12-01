@@ -4,44 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/*import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-
-import diagramComponents.FlxControl;
-import diagramComponents.FlxControl_Impl;
-import diagramComponents.FlxProcess;
-import diagramComponents.FlxProcess_Impl;*/
 import diagramSubComponents.FlxControlParameter;
 import diagramSubComponents.FlxFootswitch;
 import diagramSubComponents.FlxParameter;
-//import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-//import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-/*import javafx.scene.control.Slider;
-import javafx.scene.layout.Border;*/
 import javafx.scene.layout.BorderPane;
-/*import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;*/
 import javafx.scene.layout.FlowPane;
-//import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-//import javafx.scene.paint.Color;
 
 public class FlxParameterEditor_Impl implements FlxParameterEditor {
-	
+
     VBox horizontalParamSliders = new VBox();
     HBox verticalParamSliders = new HBox();
     Pane topPane = new Pane();
     Pane bottomPane = new Pane();
     BorderPane editorPane = new BorderPane();
-    
+
     FlxFootswitch footswitchSelector = new FlxFootswitch();
     List<FlxParameter> vertSliderArray;
     List<FlxParameter> horzSliderArray;
@@ -57,14 +39,14 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 		editorPane.setBottom(this.bottomPane);
 	}
 
-	
-	public Node getParamEditor() 
+
+	public Node getParamEditor()
 	{
 		return this.editorPane;
 	}
-	
-	
-	public void setProcessParameters(Map<String,FlxParameter> jsonProcessParamMap) // to be called by processClicked in FlxDrawingArea_Impl
+
+
+	public void setProcessParameters(Map<String,FlxParameter> jsonProcessParamMap) // to be called by editProcess in FlxDrawingArea_Impl
 	{
 		this.vertSliderArray = new ArrayList<FlxParameter>();
 		this.horzSliderArray = new ArrayList<FlxParameter>();
@@ -72,7 +54,7 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 		for(String jsonProcessParamKey : jsonProcessParamMap.keySet())
 		{
 			FlxParameter tempParam = jsonProcessParamMap.get(jsonProcessParamKey);
-			
+
 			if(tempParam.getOrientation().compareTo("v") == 0)
 			{
 				this.vertSliderArray.add(tempParam);
@@ -82,23 +64,23 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 				this.horzSliderArray.add(tempParam);
 			}
 		}
-		
+
 		this.verticalParamSliders.getChildren().clear();
 		this.horizontalParamSliders.getChildren().clear();
-		
+
 		for(int i = 0; i < this.vertSliderArray.size(); i++)
 		{
 			this.verticalParamSliders.getChildren().add(this.vertSliderArray.get(i).getParameter());
 		}
-		
+
 		for(int i = 0; i < this.horzSliderArray.size(); i++)
 		{
 			this.horizontalParamSliders.getChildren().add(this.horzSliderArray.get(i).getParameter());
 		}
 	}
 
-	
-	public void setProcessParameters(List<FlxParameter> jsonProcessParamList) // to be called by processClicked in FlxDrawingArea_Impl
+
+	public void setProcessParameters(List<FlxParameter> jsonProcessParamList) // to be called by editProcess in FlxDrawingArea_Impl
 	{
 		this.vertSliderArray = new ArrayList<FlxParameter>();
 		this.horzSliderArray = new ArrayList<FlxParameter>();
@@ -106,7 +88,7 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 		for(int i = 0 ; i < jsonProcessParamList.size(); i++)
 		{
 			FlxParameter tempParam = jsonProcessParamList.get(i);
-			
+
 			if(tempParam.getOrientation().compareTo("v") == 0)
 			{
 				this.vertSliderArray.add(tempParam);
@@ -116,23 +98,23 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 				this.horzSliderArray.add(tempParam);
 			}
 		}
-		
+
 		this.verticalParamSliders.getChildren().clear();
 		this.horizontalParamSliders.getChildren().clear();
-		
+
 		for(int i = 0; i < this.vertSliderArray.size(); i++)
 		{
 			this.verticalParamSliders.getChildren().add(this.vertSliderArray.get(i).getParameter());
 		}
-		
+
 		for(int i = 0; i < this.horzSliderArray.size(); i++)
 		{
 			this.horizontalParamSliders.getChildren().add(this.horzSliderArray.get(i).getParameter());
 		}
 	}
 
-	
-	public void setParameterControllerParameters(Map<String,FlxControlParameter> jsonControlParamMap) 
+
+	public void setParameterControllerParameters(Map<String,FlxControlParameter> jsonControlParamMap) // to be called by editControl in FlxDrawingArea_Impl
 	{
 		this.vertControlSliderArray = new ArrayList<FlxControlParameter>();
 		this.horzControlSliderArray = new ArrayList<FlxControlParameter>();
@@ -140,7 +122,7 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 		for(String jsonControlParamKey : jsonControlParamMap.keySet())
 		{
 			FlxControlParameter tempParam = jsonControlParamMap.get(jsonControlParamKey);
-			
+
 			if(tempParam.getOrientation().compareTo("v") == 0)
 			{
 				this.vertControlSliderArray.add(tempParam);
@@ -150,22 +132,22 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 				this.horzControlSliderArray.add(tempParam);
 			}
 		}
-		
+
 		this.verticalParamSliders.getChildren().clear();
 		this.horizontalParamSliders.getChildren().clear();
-		
+
 		for(int i = 0; i < this.vertSliderArray.size(); i++)
 		{
 			this.verticalParamSliders.getChildren().add(this.vertControlSliderArray.get(i).getControlParameter());
 		}
-		
+
 		for(int i = 0; i < this.horzSliderArray.size(); i++)
 		{
 			this.horizontalParamSliders.getChildren().add(this.horzControlSliderArray.get(i).getControlParameter());
 		}
 	}
-	
-	
+
+
 	public void setParameterControllerParameters(List<FlxControlParameter> jsonControlParamList) // to be called by processClicked in FlxDrawingArea_Impl
 	{
 		this.vertControlSliderArray = new ArrayList<FlxControlParameter>();
@@ -174,7 +156,7 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 		for(int i = 0 ; i < jsonControlParamList.size(); i++)
 		{
 			FlxControlParameter tempParam = jsonControlParamList.get(i);
-			
+
 			if(tempParam.getOrientation().compareTo("v") == 0)
 			{
 				this.vertControlSliderArray.add(tempParam);
@@ -184,22 +166,22 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 				this.horzControlSliderArray.add(tempParam);
 			}
 		}
-		
+
 		this.verticalParamSliders.getChildren().clear();
 		this.horizontalParamSliders.getChildren().clear();
-		
+
 		for(int i = 0; i < this.vertControlSliderArray.size(); i++)
 		{
 			this.verticalParamSliders.getChildren().add(this.vertControlSliderArray.get(i).getControlParameter());
 		}
-		
+
 		for(int i = 0; i < this.horzControlSliderArray.size(); i++)
 		{
 			this.horizontalParamSliders.getChildren().add(this.horzControlSliderArray.get(i).getControlParameter());
 		}
 	}
-	
-	
+
+
 	public void setFootswitchSelector(FlxFootswitch footswitch)
 	{
 		this.topPane.getChildren().add(footswitch.getFootswitchSelector());
@@ -227,19 +209,19 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 		lcdLabelPane.setMaxSize(650, 30);
 		lcdLabelPane.setMinSize(650, 30);
 		lcdLabelPane.setHgap(20.0);
-		lcdLabelPane.getChildren().addAll(spacerPane, cvEnableCheckBoxLabel, /*spacerPane1,*/ lcdAliasLabel, spacerPane2,  lcdAbbrLabel);
+		lcdLabelPane.getChildren().addAll(spacerPane, cvEnableCheckBoxLabel,  lcdAliasLabel, spacerPane2,  lcdAbbrLabel);
 		this.topPane.getChildren().add(lcdLabelPane);
-		
+
 	}
-	
+
 	public void setLcdLabelUpdateButton()
 	{
 		Button updateLcdLabelsButton = new Button();
 		Pane spacerPane = new Pane();
 		FlowPane lcdButtonPane = new FlowPane();
-		
-		spacerPane.setMaxSize(/*355*/430, 30);
-		spacerPane.setMinSize(/*355*/430, 30);
+
+		spacerPane.setMaxSize(430, 30);
+		spacerPane.setMinSize(430, 30);
 		updateLcdLabelsButton.setText("Update LCD Labels");
 		updateLcdLabelsButton.setOnMouseClicked(event->{
 			updateLcdLabels();
@@ -251,9 +233,9 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 		lcdButtonPane.setMinSize(650, 30);
 		lcdButtonPane.getChildren().addAll(spacerPane, updateLcdLabelsButton);
 		this.bottomPane.getChildren().add(lcdButtonPane);
-		
+
 	}
-	
+
 	private void updateLcdLabels()
 	{
 	    for(int controlSliderIndex = 0; controlSliderIndex < this.vertControlSliderArray.size(); controlSliderIndex++)
@@ -266,7 +248,7 @@ public class FlxParameterEditor_Impl implements FlxParameterEditor {
 	    }
 
 	}
-	
+
 	public void clearEditor()
 	{
 		this.topPane.getChildren().clear();

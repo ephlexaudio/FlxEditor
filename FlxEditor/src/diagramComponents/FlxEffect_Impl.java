@@ -12,21 +12,16 @@ import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 
 import diagramSubComponents.FlxConnector;
-/*import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.ScrollPane;
-import main.FlxSidebar;*/
 
 public class FlxEffect_Impl implements FlxEffect {
 	String name;
 	String abbr;
-	int index; 
+	int index;
 	boolean debugStatements = false;
 	boolean errorStatements = true;
 	JsonValue effectJsonData;
-	
-	//Group parentDrawingArea; 
-	
+
+
 	List<JsonValue> processDataArray;
 	List<JsonValue> processConnectionDataArray;
 	List<JsonValue> controlDataArray;
@@ -36,20 +31,18 @@ public class FlxEffect_Impl implements FlxEffect {
 	Map<String,FlxWire> processConnectionMap;
 	Map<String,FlxControl> controlMap;
 	Map<String,FlxControlWire> controlConnectionMap;
-	
+
 	public FlxEffect_Impl(int index, JsonValue effectData)
 	{
-		
+
 		this.effectJsonData = effectData;
 		JsonObject effectJsonObject = ((JsonObject)this.effectJsonData);
 		this.name = effectJsonObject.get("name").toString().replace("\"", "");
 		this.abbr = effectJsonObject.get("abbr").toString().replace("\"", "");
 		this.index = Integer.parseInt(effectJsonObject.get("index").toString().replace("\"", ""));
-	
-		/******************************* CREATE SKELETON CONNECTIONS *****************************
-		this.effectIO = createEffectIO();
+
 		/******************************** CREATE PROCESS MAP ******************************/
-		this.processMap = new HashMap<String,FlxProcess>();		
+		this.processMap = new HashMap<String,FlxProcess>();
 		JsonArray processJsonArray = null;
 		boolean success = false;
 		try
@@ -61,7 +54,7 @@ public class FlxEffect_Impl implements FlxEffect {
 		{
 			if(this.errorStatements) System.out.println("error getting processArray from effectJsonObject: " + e);
 		}
-			
+
 		if(success == true)
 		{
 			for(int processDataArrayIndex = 0; processDataArrayIndex < processJsonArray.size(); processDataArrayIndex++)
@@ -80,9 +73,8 @@ public class FlxEffect_Impl implements FlxEffect {
 				catch(Exception e)
 				{
 					if(this.errorStatements) System.out.println("Process constructor error: " + this.name + ":" + e);
-					//if(this.errorStatements) System.out.println(processJsonObject.toString());
 				}
-			}			
+			}
 		}
 		/********************** CREATE PROCESS CONNECTION MAP ****************************/
 		this.processConnectionMap = new HashMap<String,FlxWire>();
@@ -108,16 +100,15 @@ public class FlxEffect_Impl implements FlxEffect {
 					processConnectionJsonObject = (JsonObject)processConnectionArray.get(processConnectionArrayIndex);
 					FlxWire processConnection = new FlxWire_Impl(processConnectionJsonObject,this.name);
 					processConnectionName = processConnection.getWireName().replace("\"", "");
-					//System.out.println("creating processConnectionMap in constructor for: " + this.name + ":" + processConnectionName );
 					this.processConnectionMap.put(processConnectionName, processConnection);
 				}
 				catch(Exception e)
 				{
 					if(this.errorStatements) System.out.println("Process connection constructor error: " + this.name + ":" + e);
 				}
-			}			
+			}
 		}
-			
+
 
 		/********************** CREATE CONTROL MAP **************************************/
 		this.controlMap = new HashMap<String,FlxControl>();
@@ -132,7 +123,7 @@ public class FlxEffect_Impl implements FlxEffect {
 		{
 			if(this.errorStatements) System.out.println("error getting controlArray from effectJsonObject: " + e);
 		}
-		
+
 		if(success == true)
 		{
 			for(int processControlArrayIndex = 0; processControlArrayIndex < processControlArray.size(); processControlArrayIndex++)
@@ -167,7 +158,7 @@ public class FlxEffect_Impl implements FlxEffect {
 		{
 			if(this.errorStatements) System.out.println("error getting controlConnectionArray from effectJsonObject: " + e);
 		}
-		
+
 		if(success == true)
 		{
 			for(int controlConnectionArrayIndex = 0; controlConnectionArrayIndex < controlConnectionArray.size(); controlConnectionArrayIndex++)
@@ -186,20 +177,21 @@ public class FlxEffect_Impl implements FlxEffect {
 				{
 					if(this.errorStatements) System.out.println("Control wire constructor error: " + this.name + ":" + e);
 				}
-			}			
+			}
 		}
+
 	}
-		
+
 	public int getIndex()
 	{
 		return this.index;
 	}
-	
+
 	public String getName()
 	{
 		return this.name;
 	}
-	
+
 	public String getAbbr()
 	{
 		return this.abbr;
@@ -209,7 +201,7 @@ public class FlxEffect_Impl implements FlxEffect {
 	{
 		this.name = effectName;
 	}
-	
+
 	public void setAbbr(String effectAbbr)
 	{
 		this.abbr = effectAbbr;
@@ -219,7 +211,7 @@ public class FlxEffect_Impl implements FlxEffect {
 	{
 		JsonArrayBuilder processDataArray = Json.createArrayBuilder();
 		JsonArray processDataArrayBuilt = null;
-		
+
 		try
 		{
 			for(String processKey : this.processMap.keySet())
@@ -228,21 +220,21 @@ public class FlxEffect_Impl implements FlxEffect {
 				processDataArray.add(processData);
 			}
 			processDataArrayBuilt = processDataArray.build();
-			
+
 		}
 		catch(Exception e)
 		{
-			if(this.errorStatements) System.out.println("FlxEffect::getProcessDataArray error: " + e);			
+			if(this.errorStatements) System.out.println("FlxEffect::getProcessDataArray error: " + e);
 		}
-		
+
 		return (JsonValue)processDataArrayBuilt;
 	}
-	
+
 	private JsonValue getProcessConnectionDataArray()
 	{
 		JsonArrayBuilder processConnectionDataArray = Json.createArrayBuilder();
 		JsonArray processConnectionDataArrayBuilt = null;
-		
+
 		try
 		{
 			for(String processConnectionKey : this.processConnectionMap.keySet())
@@ -251,21 +243,21 @@ public class FlxEffect_Impl implements FlxEffect {
 				processConnectionDataArray.add(processConnectionData);
 			}
 			processConnectionDataArrayBuilt = processConnectionDataArray.build();
-			
+
 		}
 		catch(Exception e)
 		{
-			if(this.errorStatements) System.out.println("FlxEffect::getProcessConnectionDataArray error: " + e);			
+			if(this.errorStatements) System.out.println("FlxEffect::getProcessConnectionDataArray error: " + e);
 		}
-		
-		return (JsonValue)processConnectionDataArrayBuilt;		
+
+		return (JsonValue)processConnectionDataArrayBuilt;
 	}
-	
+
 	private JsonValue getControlDataArray()
 	{
 		JsonArrayBuilder controlDataArray = Json.createArrayBuilder();
 		JsonArray controlDataArrayBuilt = null;
-		
+
 		try
 		{
 			for(String controlKey : this.controlMap.keySet())
@@ -277,17 +269,17 @@ public class FlxEffect_Impl implements FlxEffect {
 		}
 		catch(Exception e)
 		{
-			if(this.errorStatements) System.out.println("FlxEffect::getControlDataArray error: " + e);			
+			if(this.errorStatements) System.out.println("FlxEffect::getControlDataArray error: " + e);
 		}
-		
-		return (JsonValue)controlDataArrayBuilt;		
+
+		return (JsonValue)controlDataArrayBuilt;
 	}
-	
+
 	private JsonValue getControlConnectionDataArray()
 	{
 		JsonArrayBuilder controlConnectionDataArray = Json.createArrayBuilder();
 		JsonArray controlConnectionDataArrayBuilt = null;
-		
+
 		try
 		{
 			for(String controlConnectionKey : this.controlConnectionMap.keySet())
@@ -299,12 +291,12 @@ public class FlxEffect_Impl implements FlxEffect {
 		}
 		catch(Exception e)
 		{
-			if(this.errorStatements) System.out.println("FlxEffect::getControlConnectionDataArray error: " + e);			
+			if(this.errorStatements) System.out.println("FlxEffect::getControlConnectionDataArray error: " + e);
 		}
-		
-		return (JsonValue)controlConnectionDataArrayBuilt;		
+
+		return (JsonValue)controlConnectionDataArrayBuilt;
 	}
-	
+
 	public JsonValue getEffectData()
 	{
 		JsonObjectBuilder effectData = Json.createObjectBuilder();
@@ -319,16 +311,16 @@ public class FlxEffect_Impl implements FlxEffect {
 					.add("connectionArray", this.getProcessConnectionDataArray())
 					.add("controlArray", this.getControlDataArray())
 					.add("controlConnectionArray", this.getControlConnectionDataArray())
-					.build();			
+					.build();
 		}
 		catch(Exception e)
 		{
 			if(this.errorStatements) System.out.println("FlxEffect::getEffectData error: " + e);
 		}
-		
+
 		return (JsonValue)effectDataBuilt;
 	}
-		
+
 	public Map<String,FlxProcess> getProcessMap()
 	{
 		Map<String,FlxProcess> tempProcMap = null;
@@ -343,7 +335,7 @@ public class FlxEffect_Impl implements FlxEffect {
 		}
 		return tempProcMap;
 	}
-	
+
 	public Map<String,FlxWire> getWireMap()
 	{
 		Map<String,FlxWire> tempWireMap = null;
@@ -357,7 +349,7 @@ public class FlxEffect_Impl implements FlxEffect {
 		}
 		return tempWireMap;
 	}
-	
+
 	public Map<String,FlxControl> getControlMap()
 	{
 		Map<String,FlxControl> tempControlMap = null;
@@ -371,7 +363,7 @@ public class FlxEffect_Impl implements FlxEffect {
 		}
 		return tempControlMap;
 	}
-	
+
 	public Map<String,FlxControlWire> getControlWireMap()
 	{
 		Map<String,FlxControlWire> tempControlWireMap = null;
@@ -386,26 +378,9 @@ public class FlxEffect_Impl implements FlxEffect {
 		return tempControlWireMap;
 	}
 
-	/*private Map<String,FlxConnector> createEffectIO(int index)
-	{
-		Map<String,FlxConnector> effectIO = new HashMap<String,FlxConnector>();
-		
-		FlxConnector input1 = new FlxConnector("input1", "input", 0, "(effect"+index+")", 20, 160);
-		FlxConnector input2 = new FlxConnector("input2", "input", 1, "(effect"+index+")", 20, 400);
-		FlxConnector output1 = new FlxConnector("output1", "output", 0, "(effect"+index+")", 970, 160);
-		FlxConnector output2 = new FlxConnector("output2", "output", 1, "(effect"+index+")", 970, 160);
 
-		effectIO.put("input1", input1);
-		effectIO.put("input2", input2);
-		effectIO.put("output1", output1);
-		effectIO.put("output2", output2);
-		
-		return effectIO;
-	}*/
-	
 	public void addToProcessMap(String processName, FlxProcess process)
 	{
-//		Map<String,FlxProcess> tempProcMap = null;
 		try
 		{
 			this.processMap.put(processName, process);
@@ -414,6 +389,6 @@ public class FlxEffect_Impl implements FlxEffect {
 		{
 			if(this.errorStatements) System.out.println("FlxEffect::addToProcessMap error: " + e);
 		}
-		
+
 	}
 }
